@@ -28,7 +28,7 @@
             border-2 border-transparent
             rounded
           "
-          placeholder="jane.dow@gmail.com"
+          placeholder="jane.doe@gmail.com"
         />
         <span
           v-if="!!state.email.errorMessage"
@@ -79,7 +79,7 @@
           rounded-full
           bg-brand-main
           focus:outline-none
-          transition
+          transition-all
           duration-150
         "
       >
@@ -93,22 +93,31 @@
 import { reactive } from "vue";
 import useModal from "@/hooks/useModal";
 import { useField } from "vee-validate";
+import {
+  validateEmptyAndLength3,
+  validateEmptyAndEmail,
+} from "@/utils/validators";
+
 export default {
   setup() {
     const modal = useModal();
-    const { value: emailValue, errorMessage: emailErrorMessage } =
-      useField("email");
+    const { value: emailValue, errorMessage: emailErrorMessage } = useField(
+      "email",
+      validateEmptyAndEmail
+    );
+    const { value: passwordValue, errorMessage: passwordErrorMessage } =
+      useField("password", validateEmptyAndLength3);
 
     const state = reactive({
       hasError: false,
       isLoading: false,
       email: {
         value: emailValue,
-        errorMessage: "",
+        errorMessage: emailErrorMessage,
       },
       password: {
-        value: "",
-        errorMessage: emailErrorMessage,
+        value: passwordValue,
+        errorMessage: passwordErrorMessage,
       },
     });
 
