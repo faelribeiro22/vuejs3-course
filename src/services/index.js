@@ -1,5 +1,7 @@
+import router from "@/router";
 import axios from "axios";
 import AuthService from "./auth";
+import UsersServices from "./users";
 
 const API_ENVS = {
   local: "http://localhost:3000",
@@ -7,6 +9,14 @@ const API_ENVS = {
 
 const httpClient = axios.create({
   baseURL: API_ENVS.local,
+});
+
+httpClient.interceptors.request.use((config) => {
+  const token = window.localStorage.getItem("token");
+  if (token) {
+    config.headers.common.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 httpClient.interceptors.response.use(
@@ -17,10 +27,15 @@ httpClient.interceptors.response.use(
     if (canThrowAnError) {
       throw new Error(error.message);
     }
+
+    if (error.response.status === 401) {
+      router.push({ name: "Home" });
+    }
     return error;
   }
 );
 
 export default {
   auth: new AuthService(httpClient),
+  users: new UsersServices(httpClient),
 };
