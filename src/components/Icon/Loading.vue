@@ -1,7 +1,7 @@
 <template>
   <svg
-    :width="width"
-    :height="height"
+    :width="size"
+    :height="size"
     viewBox="0 0 22 30"
     :fill="color"
     xmlns="http://www.w3.org/2000/svg"
@@ -19,10 +19,6 @@ export default {
     size: {
       type: [String, Number],
       default: 22,
-    },
-    height: {
-      type: [String, Number],
-      default: 30,
     },
     color: {
       type: String,

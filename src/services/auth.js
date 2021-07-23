@@ -5,7 +5,6 @@ export default (httpClient) => ({
       email,
       password,
     });
-
     let errors = null;
 
     if (!response.data) {

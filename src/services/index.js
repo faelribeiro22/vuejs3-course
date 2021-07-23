@@ -15,6 +15,7 @@ const httpClient = axios.create({
 httpClient.interceptors.request.use((config) => {
   setGlobalLoading(true);
   const token = window.localStorage.getItem("token");
+
   if (token) {
     config.headers.common.Authorization = `Bearer ${token}`;
   }

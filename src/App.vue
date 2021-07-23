@@ -29,7 +29,6 @@ export default {
 
           const { data } = await services.users.getMe();
           setCurrentUser(data);
-          console.log("data", data);
         }
       }
     );
