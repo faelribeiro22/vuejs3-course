@@ -48,7 +48,7 @@
             class="cursor-pointer"
           />
           <icon
-            @click="handleGenerateApiKey"
+            @click="handleGenerateApikey"
             name="loading"
             :color="brandColors.graydark"
             size="24"
@@ -121,11 +121,10 @@ export default {
       }
     );
 
-    async function handleGenerateApiKey() {
+    async function handleGenerateApikey() {
       try {
         state.isLoading = true;
-        console.log("aquiii", services.users.generateApiKey());
-        const { data } = await services.users.generateApiKey();
+        const { data } = await services.users.generateApikey();
 
         setApiKey(data.apiKey);
         state.isLoading = false;
@@ -144,7 +143,7 @@ export default {
       store,
       state,
       brandColors: palette.brand,
-      handleGenerateApiKey,
+      handleGenerateApikey,
     };
   },
 };
