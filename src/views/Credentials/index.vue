@@ -42,6 +42,7 @@
         <span v-else>{{ store.User.currentUser.apiKey }}</span>
         <div class="flex ml-20 mr-5" v-if="!state.hasError">
           <icon
+            @click="handleCopy"
             name="copy"
             :color="brandColors.graydark"
             size="24"
@@ -102,11 +103,13 @@ import { reactive } from "@vue/reactivity";
 import services from "@/services";
 import { setApiKey } from "@/store/user";
 import { watch } from "@vue/runtime-core";
+import { useToast } from "vue-toastification";
 
 export default {
   components: { HeaderLogged, Icon, ContentLoader },
   setup() {
     const store = useStore();
+    const toast = useToast();
     const state = reactive({
       isLoading: false,
       hasError: false,
@@ -133,6 +136,17 @@ export default {
       }
     }
 
+    async function handleCopy() {
+      toast.clear();
+
+      try {
+        await navigator.clipboard.writeText(store.User.currentUser.apiKey);
+        toast.success("Cópiado!");
+      } catch (error) {
+        handleError(error);
+      }
+    }
+
     function handleError(error) {
       console.log("error", error);
       state.isLoading = false;
@@ -144,6 +158,7 @@ export default {
       state,
       brandColors: palette.brand,
       handleGenerateApikey,
+      handleCopy,
     };
   },
 };
