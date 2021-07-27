@@ -7,7 +7,7 @@
     <div class="flex">
       <ul class="flex list-none">
         <li
-          @click="() => router.push({ name: 'Credencials' })"
+          @click="() => router.push({ name: 'Credentials' })"
           class="
             px-6
             py-2
