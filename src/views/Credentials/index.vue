@@ -38,8 +38,9 @@
           lg:w-1/2
         "
       >
-        <span>{{ store.User.currentUser.apiKey }}</span>
-        <div class="flex ml-20 mr-5">
+        <span v-if="state.hasError">Erro ao carregar o script</span>
+        <span v-else>{{ store.User.currentUser.apiKey }}</span>
+        <div class="flex ml-20 mr-5" v-if="!state.hasError">
           <icon
             name="copy"
             :color="brandColors.graydark"
@@ -47,6 +48,7 @@
             class="cursor-pointer"
           />
           <icon
+            @click="handleGenerateApikey"
             name="loading"
             :color="brandColors.graydark"
             size="24"
@@ -79,7 +81,8 @@
           overflow-x-scroll
         "
       >
-        <pre>
+        <span v-if="state.hasError">Erro ao carregar o script</span>
+        <pre v-else>
 &lt;script src="https://faelribeiro22-feedbacker-widget.netlify.app?api_key={{
             store.User.currentUser.apiKey
           }}"&gt;&lt;/script&gt;</pre
@@ -96,20 +99,51 @@ import Icon from "@/components/Icon";
 import useStore from "@/hooks/useStore";
 import palette from "../../../palette";
 import { reactive } from "@vue/reactivity";
+import services from "@/services";
+import { setApiKey } from "@/store/user";
+import { watch } from "@vue/runtime-core";
 
 export default {
   components: { HeaderLogged, Icon, ContentLoader },
   setup() {
     const store = useStore();
-    console.log("aqui", store);
     const state = reactive({
       isLoading: false,
+      hasError: false,
     });
+
+    watch(
+      () => store.User.currentUser,
+      () => {
+        if (!store.Global.isLoading && !store.User.currentUser.apiKey) {
+          handleError(true);
+        }
+      }
+    );
+
+    async function handleGenerateApikey() {
+      try {
+        state.isLoading = true;
+        const { data } = await services.users.generateApikey();
+
+        setApiKey(data.apiKey);
+        state.isLoading = false;
+      } catch (error) {
+        handleError(error);
+      }
+    }
+
+    function handleError(error) {
+      console.log("error", error);
+      state.isLoading = false;
+      state.hasError = !!error;
+    }
 
     return {
       store,
       state,
       brandColors: palette.brand,
+      handleGenerateApikey,
     };
   },
 };
