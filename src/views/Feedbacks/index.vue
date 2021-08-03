@@ -15,9 +15,13 @@
         <h1 class="text-3xl font-black text-brand-darkgray">Listagem</h1>
         <suspense>
           <template #default>
-            <filters />
+            <filters
+              class="mt-8 animate__animated animate__fadeIn animate__faster"
+            />
           </template>
-          <template #fallback> loading ... </template>
+          <template #fallback>
+            <filter-loading class="mt-8" />
+          </template>
         </suspense>
       </div>
       <div class="px-10 pt-20 col-span-3"></div>
@@ -27,11 +31,13 @@
 
 <script>
 import HeaderLogged from "@/components/HeaderLogged";
+import FilterLoading from "./FilterLoading";
 import Filters from "./Filters";
 export default {
   components: {
     HeaderLogged,
     Filters,
+    FilterLoading,
   },
 };
 </script>
