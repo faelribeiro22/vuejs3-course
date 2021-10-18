@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthService should return a token when user login 1`] = `
+Object {
+  "data": Object {
+    "token": "123.123.123",
+  },
+  "errors": null,
+}
+`;
+
+exports[`AuthService should return an user when user register 1`] = `undefined`;
+
+exports[`AuthService should throw an error when not found 1`] = `
+Object {
+  "data": undefined,
+  "errors": Object {
+    "status": 404,
+    "statusText": "Not Found",
+  },
+}
+`;

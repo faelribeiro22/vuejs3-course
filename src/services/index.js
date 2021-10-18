@@ -6,11 +6,12 @@ import UsersServices from "./users";
 import FeedbacksService from "./feedbacks";
 
 const API_ENVS = {
+  production: "https://backend-treinamento-vue3-one.vercel.app",
   local: "http://localhost:3000",
 };
 
 const httpClient = axios.create({
-  baseURL: API_ENVS.local,
+  baseURL: API_ENVS[process.env.NODE_ENV] ?? API_ENVS.local,
 });
 
 httpClient.interceptors.request.use((config) => {

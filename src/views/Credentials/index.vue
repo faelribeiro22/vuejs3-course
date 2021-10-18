@@ -39,7 +39,7 @@
         "
       >
         <span v-if="state.hasError">Erro ao carregar o script</span>
-        <span v-else>{{ store.User.currentUser.apiKey }}</span>
+        <span id="apikey" v-else>{{ store.User.currentUser.apiKey }}</span>
         <div class="flex ml-20 mr-5" v-if="!state.hasError">
           <icon
             @click="handleCopy"
@@ -49,6 +49,7 @@
             class="cursor-pointer"
           />
           <icon
+            id="generate-apikey"
             @click="handleGenerateApikey"
             name="loading"
             :color="brandColors.graydark"

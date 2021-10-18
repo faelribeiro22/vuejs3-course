@@ -37,6 +37,7 @@
           Feedbacks
         </li>
         <li
+          id="logout-button"
           @click="handleLogout"
           class="
             px-6
